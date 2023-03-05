@@ -22,17 +22,18 @@ int main()
         cout << "\t\t\t\t Please select an option" << endl;
 
         cin >> ch;
+        system("cls");
         switch (ch) {
         case 1: {
             Game* game = new Game;
             game->onePlayerGame();
+            break;
         }
-              break;
         case 2: {
             Game* game = new Game;
             game->twoPlayerGame();
+            break;
         }
-              break;
         case 3:
             return 0;
         default:
