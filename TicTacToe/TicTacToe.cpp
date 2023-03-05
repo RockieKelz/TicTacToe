@@ -2,19 +2,42 @@
 //
 
 #include <iostream>
+#include <stdlib.h>
+#include "Game.h"
+
+using namespace std;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    int ch;
+
+    while (1) {
+        cout << "\n\n\t\t\tT I C K -- T A C -- T O E -- G A M E\n\n\n";
+        cout << "\t\t\t      ----------MENU----------" << endl;
+        cout << "\n\n\t\t\t\t 1. 1 Player game" << endl;
+        cout << "\t\t\t\t 2. 2 Player game" << endl;
+        cout << "\t\t\t\t 3. Exit \n\n" << endl;
+        cout << "\t\t\t      ------------------------" << endl;
+        cout << endl;
+        cout << "\t\t\t\t Please select an option" << endl;
+        cin >> ch;
+        switch (ch) {
+        case 1: {
+            Game* game = new Game;
+            game->onePlayerGame();
+        }
+              break;
+        case 2: {
+            Game* game = new Game;
+            game->twoPlayerGame();
+        }
+              break;
+        case 3:
+            return 0;
+        default:
+            cout << "OOPs Invalid Option! TRY AGAIN";
+        }
+
+    }
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
