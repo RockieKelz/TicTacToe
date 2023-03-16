@@ -76,6 +76,7 @@ void Game::checkForWinner(Player& p1, Player& p2)
 {
     int i, j;
     bool match = false;
+    bool tie = false;
     char firstSymbol;
     for (i = 0; i < 8; i++) {
         //get the first char from the list of winning combinations list
@@ -91,18 +92,22 @@ void Game::checkForWinner(Player& p1, Player& p2)
         for (j = 0; j < 3; j++) {
             //if it doesn't match, the game has not been won
             if (firstSymbol != board[winningCombinationsList[i].row[j]]) {
-                if (emptyCount < 0)
+                //if there aren't any remaining empty spaces, it's a tie game
+                if (emptyCount < 0) {
+                    tie = true;
                     break;
+                }
                 //untrigger the flag
                 match = false;
                 break;
             }
         }
-        //if the flagg is still triggered
+        //if the flag is still triggered
         if (match) {
-            //game has been won
+            //game is over
             gameOver = true;
-            if (emptyCount >= 0) {
+            //if the tie flag isn't triggered, reward the correct player points
+            if (!tie) {
                 if (firstSymbol == 'X') {
                     p1.won();
                 }
@@ -119,7 +124,7 @@ void Game::displayResults(Player &p1, Player &p2)
 {
     cout << "\t\t\t-----------------------" << endl;
     if (emptyCount <= 0) {
-        cout << "\t\t\t\t TIE GAME" << endl;
+        cout << "\t\t\t\tTIE GAME" << endl;
     }
     else if (playerTurn == 1) {
         cout << "\t\t\t   " << p1.getName() << " WON" << endl;
@@ -127,7 +132,7 @@ void Game::displayResults(Player &p1, Player &p2)
     else {
         
         if (againstComputer) {
-            cout << "\t\t\t\t COMPUTER WON" << endl;
+            cout << "\t\t\t  COMPUTER WON" << endl;
         }
         else {
             cout << "\t\t\t\t   " << p2.getName() << " WON" << endl;
