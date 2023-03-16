@@ -26,11 +26,13 @@ int main()
         switch (ch) {
         case 1: {
             Game* game = new Game;
+            game->init();
             game->onePlayerGame();
             break;
         }
         case 2: {
             Game* game = new Game;
+            game->init();
             game->twoPlayerGame();
             break;
         }

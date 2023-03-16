@@ -46,12 +46,11 @@ void Game::playerInput(Player& player)
 
 void Game::computerInput()
 {
-    Sleep(200);
+    Sleep(75);
     //randomly select a position on the board
     int selectedSpot;
-    int n;
-    srand(time(NULL));
-    selectedSpot = rand() % 10;
+    srand(time(0));
+    selectedSpot = rand() % 9;
 
     //check if the space is taken
     if (emptyIndex[selectedSpot] == 1) {
@@ -87,6 +86,8 @@ void Game::checkForWinner(Player& p1, Player& p2)
         for (j = 0; j < 3; j++) {
             //if it doesn't match, the game has not been won
             if (firstSymbol != board[winningCombinationsList[i].row[j]]) {
+                if (emptyCount < 0)
+                    break;
                 //untrigger the flag
                 match = false;
                 break;
@@ -96,53 +97,54 @@ void Game::checkForWinner(Player& p1, Player& p2)
         if (match) {
             //game has been won
             gameOver = true;
-            if (firstSymbol == 'X') {
-                p1.won();
+            if (emptyCount >= 0) {
+                if (firstSymbol == 'X') {
+                    p1.won();
+                }
+                else {
+                    p2.won();
+                }
             }
-            else {
-                p2.won();
-            }
-            displayResults(p1, p1);
+            displayResults(p1, p2);
         }
     }
 }
 
 void Game::displayResults(Player &p1, Player &p2)
 {
-    cout << "\t\t\t      -----------------------" << endl;
-
-    if (playerTurn == 1) {
-        cout << "\t\t\t Player I WON" << endl;
-        p1.won();
+    cout << "\t\t\t-----------------------" << endl;
+    if (emptyCount <= 0) {
+        cout << "\t\t\t\t TIE GAME" << endl;
+    }
+    else if (playerTurn == 1) {
+        cout << "\t\t\t   " << p1.getName() << " WON" << endl;
     }
     else {
-        if (emptyCount <= 0) {
-            cout << "\t\t\t\t TIE GAME" << endl;
-        }
-        p2.won();
+        
         if (againstComputer) {
-            cout << "\t\t\t\t Computer WON" << endl;
+            cout << "\t\t\t\t COMPUTER WON" << endl;
         }
         else {
-            cout << "\t\t\t\t Player II WON" << endl;
+            cout << "\t\t\t\t   " << p2.getName() << " WON" << endl;
         }
 
     }
-    cout << "\t\t\t      -----------------------" << endl;
+    cout << "\t\t\t-----------------------" << endl;
 
     
     cout << endl;
     cout << "\t SCORE: \t";
     if (againstComputer)
-        cout << " Player I: " << p1.getScore() << " \t Computer: " << p2.getScore() << endl;
+        cout << p1.getName() << ": " << p1.getScore() << " \t Computer: " << p2.getScore() << endl;
     else
-        cout << " Player I: " << p1.getScore() << " \t Player II: " << p2.getScore() << endl;
+        cout << p1.getName() << ": " << p1.getScore() << " \t " << p2.getName() << ": " << p2.getScore() << endl;
 
     cout << endl;
     std::string rematch;
     cout << "Rematch Y/N: ";
     cin >> rematch;
     if ((rematch == "Y") || (rematch == "y")) {
+        system("cls");
         init();
         playGame(p1, p2);
     }
@@ -153,7 +155,7 @@ void Game::init()
     gameOver = false;
     emptyCount = 0;
     srand(time(0));
-    for (size_t i = 0; i < 10; i++) {
+    for (int i = 0; i < 9; i++) {
         emptyIndex[i] = 0;
         board[i] = (i + 1) + '0';
         emptyCount++;
