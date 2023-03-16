@@ -28,18 +28,23 @@ void Game::playerInput(Player& player)
     cout << "\n\t\t" << player.getName() << "'s Turn: \n";
     cout << "\t\tSelect an open position on the board " << endl;
     cin >> selectedSpot;
-    //get the selected space's index number
-    selectedSpot -= 1;
+    //validate that the player chose a number from a valid range
+    if (selectedSpot > 9 || selectedSpot < 1)
+    {
+        cout << "\n-----That is not a valid number. Try Again-------" << endl;
+        playerInput(player);
+    }
+
     //check if the space is open
-    if (emptyIndex[selectedSpot] == 1) {
+    if (emptyIndex[selectedSpot - 1] == 1) {
         cout << "\n-----That spot is not empty. Try Again-------" << endl;
         playerInput(player);
     }
     else {
         //mark the spot as occuppied
-        emptyIndex[selectedSpot] = 1;
+        emptyIndex[selectedSpot - 1] = 1;
         emptyCount -= 1;
-        player.getName().compare(player1) == 0 ? board[selectedSpot] = 'X' : board[selectedSpot] = 'O';
+        player.getName().compare(player1) == 0 ? board[selectedSpot - 1] = 'X' : board[selectedSpot - 1] = 'O';
     }
 
 }
@@ -49,7 +54,7 @@ void Game::computerInput()
     Sleep(75);
     //randomly select a position on the board
     int selectedSpot;
-    srand(time(0));
+    srand(time(NULL));
     selectedSpot = rand() % 9;
 
     //check if the space is taken
@@ -69,7 +74,7 @@ void Game::computerInput()
 
 void Game::checkForWinner(Player& p1, Player& p2)
 {
-    int i, j, k;
+    int i, j;
     bool match = false;
     char firstSymbol;
     for (i = 0; i < 8; i++) {
